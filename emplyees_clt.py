@@ -1,13 +1,16 @@
 import json
-from abc import abstractmethod
+
 with open("info.json", "r", encoding="utf-8") as arquivo:
     base = json.load(arquivo)
 
 class Employees:
     def __init__(self, name):
-        self.name = name
-        self.contrato = base["Tipo de contrato"]
-        self.salario = base["salario"]
+        self.pessoa = next((p for p in base if p["nome"] == name), None)
+        if not self.pessoa:
+            raise ValueError(f"Colaborador '{name}' não encontrado.")
+        self.name = self.pessoa["nome"]
+        self.contrato = self.pessoa["Tipo de contrato"]
+        self.salario = float(self.pessoa["salario"])
 
     @property
     def nome(self):
@@ -45,20 +48,17 @@ class Employees:
 
 class Clt(Employees):
     def __init__(self, name):
-        super().__init__(name)
-        match name:
-            case name if name == base["nome"]:
-                encontrado = True
-                match self.contrato:
-                    case  self.contrato if  self.contrato == "CLT":
-                        print(f"Colaborador: {name}")
-                        print(f"Tipo de contrato: {base['Tipo de contrato']}")
-                        print(f'Salário Base: {self.salario}')
-                        self.mostrar_salario()
-                    case _:
-                        ...
-            case _:
-                ...
+        try:
+            super().__init__(name)
+            if self.contrato == "CLT":
+                print(f"Colaborador: {self.name}")
+                print(f"Salário Base: {self.salario}")
+                print(f"Tipo de contrato: {self.contrato}")
+                self.mostrar_salario()
+            else:
+                print(f"{name} não é CLT.")
+        except ValueError as e:
+            print(e)
 
 
-l = Clt("João")
+l = Clt("Kauan")
