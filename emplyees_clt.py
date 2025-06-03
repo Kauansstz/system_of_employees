@@ -4,10 +4,10 @@ with open("info.json", "r", encoding="utf-8") as arquivo:
     base = json.load(arquivo)
 
 class Employees:
-    def __init__(self, name, salario):
+    def __init__(self, name):
         self.name = name
         self.contrato = base["Tipo de contrato"]
-        self.salario = salario
+        self.salario = base["salario"]
 
     def descontos(self):
         VT = 8/100
@@ -24,8 +24,8 @@ class Employees:
         print(f'Salario com descontos: {self.descontos()}')
 
 class Clt(Employees):
-    def __init__(self, name, salario):
-        super().__init__(name, salario)
+    def __init__(self, name):
+        super().__init__(name)
         match name:
             case name if name in base["nome"]:
                 encontrado = True
@@ -33,7 +33,7 @@ class Clt(Employees):
                     case  self.contrato if  self.contrato == "CLT":
                         print(f"Colaborador: {name}")
                         print(f"Tipo de contrato: {base['Tipo de contrato']}")
-                        print(f'Salário Base: {salario}')
+                        print(f'Salário Base: {self.salario}')
                         self.mostrar_salario()
                     case _:
                         ...
@@ -41,4 +41,4 @@ class Clt(Employees):
                 print("Colaborador não existe")
 
 
-l = Clt("João", 3000)
+l = Clt("João")
