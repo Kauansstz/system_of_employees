@@ -58,7 +58,7 @@ class Register(Pessoa):
         }
 
     def confirm_info(self):
-        response = print(f"Esses dados estão corretos ?\n Nome = {self.name};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula}; Tipo = {self.type_contract}")
+        print(f"Esses dados estão corretos ?\n Nome = {self.name};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula}; Tipo = {self.type_contract}")
         sleep(1)
         confirm = input("As informações estão corretas? [S] ou [N]\nR: ").lower()
 
