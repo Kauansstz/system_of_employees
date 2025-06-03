@@ -1,5 +1,5 @@
 import json
-
+from abc import abstractmethod
 with open("info.json", "r", encoding="utf-8") as arquivo:
     base = json.load(arquivo)
 
@@ -8,6 +8,26 @@ class Employees:
         self.name = name
         self.contrato = base["Tipo de contrato"]
         self.salario = base["salario"]
+
+    @property
+    def nome(self):
+        return self._name
+
+    @nome.setter
+    def nome(self, novo_nome):
+        if  not novo_nome:
+            raise ValueError("Nome não pode estar vazio")
+        self._name = novo_nome
+    
+    @property
+    def salario(self):
+        return self._salario
+    
+    @salario.setter
+    def salario(self, valor):
+        if valor < 0:
+            raise ValueError("O salário não pode ser negativo")
+        self._salario = valor
 
     def descontos(self):
         VT = 8/100
@@ -27,7 +47,7 @@ class Clt(Employees):
     def __init__(self, name):
         super().__init__(name)
         match name:
-            case name if name in base["nome"]:
+            case name if name == base["nome"]:
                 encontrado = True
                 match self.contrato:
                     case  self.contrato if  self.contrato == "CLT":
@@ -38,7 +58,7 @@ class Clt(Employees):
                     case _:
                         ...
             case _:
-                print("Colaborador não existe")
+                ...
 
 
 l = Clt("João")
