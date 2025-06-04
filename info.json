@@ -4,10 +4,10 @@
         "idade": "20",
         "cpf": "13858197904",
         "genero": "Masculino",
-        "salario": "3500",
+        "salario": "50",
         "endereco": "a",
         "matricula": "1212",
-        "Tipo de contrato": "clt",
-        "Horas de trabalho": 44
+        "Tipo de contrato": "PJ",
+        "Horas de trabalho": 0
     }
 ]

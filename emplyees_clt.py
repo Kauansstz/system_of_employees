@@ -3,7 +3,7 @@ import json
 with open("info.json", "r", encoding="utf-8") as arquivo:
     base = json.load(arquivo)
 
-class Employees:
+class EmployeesClt:
     def __init__(self, name):
         self.pessoa = next((p for p in base if p["nome"] == name), None)
         if not self.pessoa:
@@ -19,7 +19,7 @@ class Employees:
     @nome.setter
     def nome(self, novo_nome):
         if  not novo_nome:
-            raise ValueError("Nome não pode estar vazio")
+            raise ValueError("O nome inserido não existe")
         self._name = novo_nome
     
     @property
@@ -46,7 +46,7 @@ class Employees:
     def mostrar_salario(self):
         print(f'Salario com descontos: {self.descontos()}')
 
-class Clt(Employees):
+class Clt(EmployeesClt):
     def __init__(self, name):
         try:
             super().__init__(name)
