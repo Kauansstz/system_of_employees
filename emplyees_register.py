@@ -12,27 +12,6 @@ class Pessoa:
         self.endereco = ''
         self.matricula = ''
         self.type_contract = ''
-
-    def get_nome(self):
-        return self.name
-
-    def get_idade(self):
-        return self.idade
-    
-    def get_cpf(self):
-        return self.cpf
-    
-    def get_genero(self):
-        return self.genero
-    
-    def get_salario(self):
-        return self.salario
-    
-    def get_endereco(self):
-        return self.endereco
-    
-    def get_matricula(self):
-        return self.matricula
     
     
 
