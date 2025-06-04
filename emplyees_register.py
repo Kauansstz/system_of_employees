@@ -14,7 +14,7 @@ class Pessoa:
         self.matricula = ''
         self.type_contract = ''
         self.horas = None
-
+        self.valor_horas = None
 
 class Register(Pessoa):
     def solicit_info(self):
@@ -27,7 +27,7 @@ class Register(Pessoa):
         self.endereco = input("endereco: ")
         self.matricula = input("matricula: ")
         self.type_contract = input("Tipo de contrato: ")
-        
+        self.valor_horas = input("Tipo de contrato: ")
     
 
     def to_dict(self):
@@ -40,11 +40,12 @@ class Register(Pessoa):
             "endereco": self.endereco,
             "matricula": self.matricula,
             "Tipo de contrato": self.type_contract,
-            "Horas de trabalho": self.horas
+            "Horas de trabalho": self.horas,
+            "Valor de Horas trabalhadas": self.valor_horas
         }
 
     def confirm_info(self):
-        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas}" )
+        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
         sleep(1)
         confirm = input("As informações estão corretas? [S] ou [N]\nR: ").lower()
 
@@ -94,9 +95,20 @@ class Register(Pessoa):
         if self._type_contract == "clt":
             self._horas = 44
         else: 
-            self._horas= 0
+            self._horas= 160
         
-    
+    @property
+    def valor_horas(self):
+        return self._valor_horas
+
+    @valor_horas.setter
+    def valor_horas(self,valor):
+        if self._type_contract == "clt":
+            self._valor_horas = 0
+        else: 
+            self._valor_horas= valor
+            
+
 
     @staticmethod
     def save_info(dados):
