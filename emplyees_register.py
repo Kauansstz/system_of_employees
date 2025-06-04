@@ -1,7 +1,8 @@
 import json
 import os
 from time import sleep
-    
+
+os.system('cls')
 class Pessoa:
     def __init__(self):
         self._nome = ''
@@ -12,8 +13,8 @@ class Pessoa:
         self.endereco = ''
         self.matricula = ''
         self.type_contract = ''
-    
-    
+        self.horas = None
+
 
 class Register(Pessoa):
     def solicit_info(self):
@@ -26,7 +27,7 @@ class Register(Pessoa):
         self.endereco = input("endereco: ")
         self.matricula = input("matricula: ")
         self.type_contract = input("Tipo de contrato: ")
-
+        
     
 
     def to_dict(self):
@@ -38,11 +39,12 @@ class Register(Pessoa):
             "salario": self.salario,
             "endereco": self.endereco,
             "matricula": self.matricula,
-            "Tipo de contrato": self.type_contract
+            "Tipo de contrato": self.type_contract,
+            "Horas de trabalho": self.horas
         }
 
     def confirm_info(self):
-        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract}")
+        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas}" )
         sleep(1)
         confirm = input("As informações estão corretas? [S] ou [N]\nR: ").lower()
 
@@ -51,7 +53,7 @@ class Register(Pessoa):
                 self.save_info(self.to_dict())
                 print("Dados salvo com sucesso ✅")
             case 'n':
-                print("Dados não salvos")
+                print("Dados não salvos ❌")
 
     @property
     def nome(self):
@@ -75,6 +77,27 @@ class Register(Pessoa):
             raise ValueError("O CPF precisa ter exatamente 11 dígitos")
         self._cpf = valor
     
+    @property
+    def type_contract(self):
+        return self._type_contract
+
+    @type_contract.setter
+    def type_contract(self, valor):
+        self._type_contract = valor
+        self.horas = None
+    @property
+    def horas(self):
+        return self._horas
+
+    @horas.setter
+    def horas(self,valor):
+        if self._type_contract == "clt":
+            self._horas = 44
+        else: 
+            self._horas= 0
+        
+    
+
     @staticmethod
     def save_info(dados):
         if os.path.exists("info.json") and os.path.getsize("info.json") > 0:
