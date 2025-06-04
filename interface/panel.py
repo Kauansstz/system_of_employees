@@ -3,23 +3,22 @@ from tkinter import Tk, Label, Button
 def main_panel(Windows1):
     Windows1.destroy()
     Windows = Tk()
-    Windows.geometry("1440x1080")
-    Windows.title("Rh_Acesso")
-    Windows.iconbitmap("imagens/rh.ico")
+    Windows.geometry("1024x800")
+    Windows.title("Principal")
     Windows.config(background="white")
 
     txt_tittle = Label(
-        Windows, text="Painel Principal", background="black", font=("Arial", 30)
+        Windows, text="Painel Principal", background="white", font=("Arial", 30)
     )
-    txt_tittle.pack(padx=10, pady=10)
+    txt_tittle.pack(padx=100, pady=100)
 
     button_image = Button(
         Windows,
-        text="Lançar Holerite",
+        text="Consultar Salário",
         font=("Arial", 20),
         background="blue",
         fg="white",
         width=20,
     )
     
-    button_image.pack(padx=10, pady=50)
+    button_image.pack(padx=100, pady=50)
