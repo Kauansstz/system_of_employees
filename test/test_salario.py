@@ -21,3 +21,16 @@ def test_desconto_salario():
 def test_salario_negativo():
     with pytest.raises(ValueError):
         desconto_salario(-100)
+
+
+def salario_pj(salario, horas):
+    if salario < 0:
+        raise ValueError("Salário não pode ser negativo")
+    horas_trabalho = horas
+    salario_final = horas_trabalho * salario
+    return salario_final
+
+def test_salario_pj():
+    with pytest.raises(ValueError):
+        salario_pj(-50, 160)
+    assert salario_pj(50,160)
