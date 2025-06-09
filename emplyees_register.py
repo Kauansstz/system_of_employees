@@ -109,6 +109,15 @@ class Register(ValiedInfo):
         self.type_contract = input("Tipo de contrato: ")
         self.valor_horas = float(input("Valor da hora (se for PJ): "))
 
+    def message_success(self):
+        print("Dados salvo com sucesso ✅")
+
+    def message_error(self):
+        print("Dados não salvos ❌")
+    
+    def review_info(self):
+        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
+
 class SaveRegister(Register):
     def to_dict(self):
         return {
@@ -123,14 +132,7 @@ class SaveRegister(Register):
             "Horas de trabalho": self.horas,
             "Valor de Horas trabalhadas": self.valor_horas
         }
-    def message_success(self):
-        print("Dados salvo com sucesso ✅")
-
-    def message_error(self):
-        print("Dados não salvos ❌")
     
-    def review_info(self):
-        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
 
     def confirm_info(self):
         self.review_info()
