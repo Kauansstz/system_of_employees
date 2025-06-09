@@ -70,8 +70,12 @@ class ValiedInfo(Pessoa):
 
     @type_contract.setter
     def type_contract(self, valor):
-        if not isinstance(valor, str):
-            raise ValueError("O contrato deve conter somente letras")
+        if not valor.isdigit():
+            raise ValueError("Escolha alguma das opções acima (1 ou 2).")
+        if valor == 1:
+            valor = "CLT"
+        else: 
+            valor = "PJ"
         self._type_contract = valor
         self.horas = None
     @property
@@ -106,7 +110,7 @@ class Register(ValiedInfo):
         self.salario = float(input("salario: "))
         self.endereco = input("endereco: ")
         self.matricula = int(input("matricula: "))
-        self.type_contract = input("Tipo de contrato: ")
+        self.type_contract = int(input("Tipo de contrato (1 - CLT | 2 - PJ): "))
         self.valor_horas = float(input("Valor da hora (se for PJ): "))
 
     def message_success(self):
