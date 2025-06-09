@@ -16,49 +16,8 @@ class Pessoa:
         self.horas = None
         self.valor_horas = None
 
-class Register(Pessoa):
-    def solicit_info(self):
-        print("Preencha algumas informações para prosseguir.")
-        self.nome = input("Nome: ")
-        self.idade = input("idade: ")
-        self.cpf = input("cpf: ")
-        self.genero = input("genero: ")
-        self.salario = input("salario: ")
-        self.endereco = input("endereco: ")
-        self.matricula = input("matricula: ")
-        self.type_contract = input("Tipo de contrato: ")
-        self.valor_horas = input("Tipo de contrato: ")
     
-
-    def to_dict(self):
-        return {
-            "nome": self.nome,
-            "idade": self.idade,
-            "cpf": self.cpf,
-            "genero": self.genero,
-            "salario": self.salario,
-            "endereco": self.endereco,
-            "matricula": self.matricula,
-            "Tipo de contrato": self.type_contract,
-            "Horas de trabalho": self.horas,
-            "Valor de Horas trabalhadas": self.valor_horas
-        }
-    def message_success(self):
-        print("Dados salvo com sucesso ✅")
-    def message_error(self):
-        print("Dados não salvos ❌")
-    def confirm_info(self):
-        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
-        sleep(1)
-        confirm = input("As informações estão corretas? [S] ou [N]\nR: ").lower()
-
-        match confirm:
-            case 's':
-                self.save_info(self.to_dict())
-                self.message_success()
-            case 'n':
-                self.message_error()
-
+class ValiedInfo(Pessoa):
     @property
     def nome(self):
         return self._nome
@@ -70,6 +29,28 @@ class Register(Pessoa):
         if not isinstance(novo_nome, str):
             raise ValueError("Nome deve ser somente por letras")
         self._nome = novo_nome
+    
+    @property
+    def idade(self):
+        return self.idade
+    
+    @idade.setter
+    def idade(self, valor):
+        if valor < 14:
+            raise ValueError("O(a) colaborador(a) deve ter mais ou igual à 14 anos")
+        if len(valor) <= 1:
+            raise ValueError("A idade deve conter 2 digitos")
+        self.idade = valor
+    
+    @property
+    def matricula(self):
+        return self.matricula
+    
+    @matricula.setter
+    def matricula(self, valor):
+        if not valor.isdigit():
+            raise ValueError("A matrícula deve conter somente números")
+        self.matricula = valor
     
     @property
     def cpf(self):
@@ -99,7 +80,7 @@ class Register(Pessoa):
 
     @horas.setter
     def horas(self,valor):
-        if self._type_contract == "clt":
+        if self._type_contract.lower() == "CLT":
             self._horas = 44
         else: 
             self._horas= 160
@@ -114,9 +95,56 @@ class Register(Pessoa):
             self._valor_horas = 0
         else: 
             self._valor_horas= valor
-            
 
+class Register(ValiedInfo):
+    def solicit_info(self):
+        print("Preencha algumas informações para prosseguir.")
+        self.nome = input("Nome: ")
+        self.idade = int(input("idade: "))
+        self.cpf = int(input("cpf: "))
+        self.genero = input("genero: ")
+        self.salario = float(input("salario: "))
+        self.endereco = input("endereco: ")
+        self.matricula = int(input("matricula: "))
+        self.type_contract = input("Tipo de contrato: ")
+        self.valor_horas = float(input("Valor da hora (se for PJ): "))
 
+class SaveRegister(Register):
+    def to_dict(self):
+        return {
+            "nome": self.nome,
+            "idade": self.idade,
+            "cpf": self.cpf,
+            "genero": self.genero,
+            "salario": self.salario,
+            "endereco": self.endereco,
+            "matricula": self.matricula,
+            "Tipo de contrato": self.type_contract,
+            "Horas de trabalho": self.horas,
+            "Valor de Horas trabalhadas": self.valor_horas
+        }
+    def message_success(self):
+        print("Dados salvo com sucesso ✅")
+
+    def message_error(self):
+        print("Dados não salvos ❌")
+    
+    def review_info(self):
+        print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
+
+    def confirm_info(self):
+        self.review_info()
+        sleep(1)
+        confirm = input("As informações estão corretas? [S] ou [N]\nR: ").lower()
+
+        match confirm:
+            case 's':
+                self.save_info(self.to_dict())
+                self.message_success()
+            case 'n':
+                self.message_error()
+
+    
     @staticmethod
     def save_info(dados):
         if os.path.exists("info.json") and os.path.getsize("info.json") > 0:
@@ -130,6 +158,6 @@ class Register(Pessoa):
             json.dump(lista, arquivo, ensure_ascii=False, indent=4)
 
 if __name__ == "__main__":
-    registro = Register()
+    registro = SaveRegister()
     registro.solicit_info()
     registro.confirm_info()
