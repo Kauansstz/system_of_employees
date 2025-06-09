@@ -43,7 +43,10 @@ class Register(Pessoa):
             "Horas de trabalho": self.horas,
             "Valor de Horas trabalhadas": self.valor_horas
         }
-
+    def message_success(self):
+        print("Dados salvo com sucesso ✅")
+    def message_error(self):
+        print("Dados não salvos ❌")
     def confirm_info(self):
         print(f"Esses dados estão corretos ?\n Nome = {self.nome};\n Idade = {self.idade};\n CPF = {self.cpf};\n Genero = {self.genero};\n Salario = {self.salario};\n Endereço = {self.endereco};\n Matrícula = {self.matricula};\n Tipo = {self.type_contract};\n Horas de Trabalho: {self.horas};\n Valor de Horas Trabalhadas: {self.valor_horas}" )
         sleep(1)
@@ -52,9 +55,9 @@ class Register(Pessoa):
         match confirm:
             case 's':
                 self.save_info(self.to_dict())
-                print("Dados salvo com sucesso ✅")
+                self.message_success()
             case 'n':
-                print("Dados não salvos ❌")
+                self.message_error()
 
     @property
     def nome(self):
@@ -64,6 +67,8 @@ class Register(Pessoa):
     def nome(self, novo_nome):
         if  not novo_nome:
             raise ValueError("Nome não pode estar vazio")
+        if not isinstance(novo_nome, str):
+            raise ValueError("Nome deve ser somente por letras")
         self._nome = novo_nome
     
     @property
@@ -84,6 +89,8 @@ class Register(Pessoa):
 
     @type_contract.setter
     def type_contract(self, valor):
+        if not isinstance(valor, str):
+            raise ValueError("O contrato deve conter somente letras")
         self._type_contract = valor
         self.horas = None
     @property
