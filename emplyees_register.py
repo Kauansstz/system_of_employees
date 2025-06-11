@@ -12,7 +12,7 @@ class Pessoa:
         self.salario = 0.0
         self.endereco = ''
         self.matricula = ''
-        self.type_contract = ''
+        self.type_contract = 0
         self.horas = None
         self.valor_horas = None
 
@@ -32,7 +32,7 @@ class ValiedInfo(Pessoa):
     
     @property
     def idade(self):
-        return self.idade
+        return self._idade
     
     @idade.setter
     def idade(self, valor):
@@ -40,17 +40,17 @@ class ValiedInfo(Pessoa):
             raise ValueError("O(a) colaborador(a) deve ter mais ou igual à 14 anos")
         if len(valor) <= 1:
             raise ValueError("A idade deve conter 2 digitos")
-        self.idade = valor
+        self._idade = valor
     
     @property
     def matricula(self):
-        return self.matricula
+        return self._matricula
     
     @matricula.setter
     def matricula(self, valor):
         if not valor.isdigit():
             raise ValueError("A matrícula deve conter somente números")
-        self.matricula = valor
+        self._matricula = valor
     
     @property
     def cpf(self):
@@ -59,7 +59,7 @@ class ValiedInfo(Pessoa):
     @cpf.setter
     def cpf(self,valor):
         if not valor.isdigit():
-            raise ValueError("O CPF precisa somente números")
+            raise ValueError("Digite apenas números (sem pontos ou traços)")
         if len(valor) != 11:
             raise ValueError("O CPF precisa ter exatamente 11 dígitos")
         self._cpf = valor
@@ -67,15 +67,17 @@ class ValiedInfo(Pessoa):
     @property
     def type_contract(self):
         return self._type_contract
-
+    
     @type_contract.setter
     def type_contract(self, valor):
         if not valor.isdigit():
-            raise ValueError("Escolha alguma das opções acima (1 ou 2).")
+            raise ValueError("O tipo de contrato precisa ter somente números")
         if valor == 1:
             valor = "CLT"
-        else: 
+        elif valor == 2: 
             valor = "PJ"
+        else:
+            print("Escolha algum das opções acima (1 ou 2)")
         self._type_contract = valor
         self.horas = None
     @property
@@ -111,7 +113,7 @@ class Register(ValiedInfo):
         self.endereco = input("endereco: ")
         self.matricula = int(input("matricula: "))
         self.type_contract = int(input("Tipo de contrato (1 - CLT | 2 - PJ): "))
-        self.valor_horas = float(input("Valor da hora (se for PJ): "))
+        self.valor_horas = float(input("Valor da hora (obrigatório apenas para PJ): "))
 
     def message_success(self):
         print("Dados salvo com sucesso ✅")
